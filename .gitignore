@@ -1,0 +1,6 @@
+.env
+__pycache__/
+discord.log
+data.json
+venvp/
+db.sqlite3

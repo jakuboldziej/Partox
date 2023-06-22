@@ -1,0 +1,13 @@
+git+https://github.com/Rapptz/discord.py
+PyNaCl
+pandas
+discord
+requests
+asyncio
+dnspython==1.16.0
+python-dotenv
+twitchAPI
+django
+pytimeparse
+tweepy
+djangorestframework
