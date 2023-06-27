@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: rgb(105, 104, 104);
+  color: white;
+}
+.footer {
+  background-color: #293446;
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+.kontener { 
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 57px);
+}
+.dropdown-item:hover {
+  color: white;
+}

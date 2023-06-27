@@ -9,8 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-load_dotenv()
-SECRET_KEY = 'django-insecure--fj!i#z&vtqo^nyfj%b32b-1gd#mh(bk*89%0!*b8b*n#jee1o'
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+load_dotenv(dotenv_path)
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -111,14 +112,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-if not DEBUG:
+if DEBUG:
+    # Development
+    STATICFILES_DIRS = ('static',)
+else:
     # Production
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-else:
-    # Development
-    STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/'),
-    )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMPLATE_DIRS = (
 	os.path.join(BASE_DIR, 'templates'),

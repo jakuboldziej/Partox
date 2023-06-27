@@ -1,0 +1,129 @@
+.left-panel {
+  width: 240px;
+  height: calc(100vh - 57px);
+  background-color: #191925;
+}
+.img-thumbnail  {
+  background-color: #3b4452;
+  border-color: #434e5e;
+}
+hr {
+  border: 0;
+  width: 96%;               
+  background-color:#979797;
+  height: 1px;
+}
+.pagination_link, .panel_link {
+  background-color: rgb(8, 19, 43);
+  border-radius: 10px;
+  list-style: none;
+  width: 222px;
+  height: 43px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  text-decoration: none;
+  color: #435966;
+  transition: 0.5s;
+}
+.active {
+  color: #5d98b2;
+  background-color: #36455e;
+}
+.pagination_link:hover, .panel_link:hover {
+  color: white;
+}
+.right_panel_el {
+  display: none;
+}
+.footer {
+  width: calc(100vw - 240px);
+  position: fixed;
+}
+.right_panel {
+  width: calc(100vw - 240px);
+}
+.right_panel_el {
+  width: 100%;
+}
+#server-info {
+  padding: 30px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+#server-info .card-header { 
+  background-color: #3b4452;
+}
+#server-info .card {
+  border: none;
+  min-width: 538px;
+}
+#command-configs {
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 57px - 60px);
+}
+#command-configs .card {
+  width: 70%;
+  height: 1000px;
+}
+#command-configs .command {
+  background-color: #36455e;
+  border-radius: 10px;
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+}
+#command-configs .command:hover {
+  cursor: pointer;
+  filter: brightness(110%);
+  position: relative;
+  left: 0.1rem;
+  top: 0.1rem;
+}
+#command-configs .commands {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#canvasBtn {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+@media only screen and (max-width: 757px) {
+  .footer { 
+    width: 100vw;
+  }
+  .card, .right_panel {
+    width: 100%;
+  }
+  #server-info {
+    padding: 20px 0 0 0;
+  }
+  #server-info .card {
+    width: 100%;
+    min-width: 0;
+  }
+  #command-configs {
+    padding: 0;
+  }
+  #command-configs .command{
+    width: 100%;
+  }
+  #command-configs .card {
+    width: 100%;
+  }
+  #canvasBtn {
+    display: block;
+  }
+}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary" id="canvasBtn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Link with href</a>
+<div class="d-flex flex-row wrapper">
+  <div class="overflow-auto left-panel">
+    <div class="d-flex flex-column align-items-center info">
+      <img class="rounded-circle img-thumbnail mt-3" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:74px" alt="">
+      {{guild.name}}<br>
+      <span class="text-secondary">{{guild.members}} members</span>
+      <hr>
+    </div>
+    <div class="d-flex flex-column align-items-center pagination gap-1 p-0">
+      <a href="#server-info" class="pagination_link">Server Info</a>
+      <a href="#command-configs" class="pagination_link">Command Configs</a>
+      <a href="#server-configs" class="pagination_link">Server Configs</a>
+      <a href="#panel-configs" class="pagination_link">Panel Configs</a>
+      <a href="#custom-commands" class="pagination_link">Custom Commands</a>
+      <hr>
+      <a href="#" class="panel_link">Dashboard History</a>
+      <a href="#" class="panel_link">Statistics</a>
+    </div>
+  </div>
+  <div class="right_panel">
+    <div id="server-info" class="right_panel_el">
+      <div class="card text-bg-dark">
+        <div class="card-header">
+          Server Info
+        </div>
+        <div class="card-body">
+          <h6>Members: {{guild.members}}</h6>
+          <h6>Bots: {{guild.bots}}</h6>
+          <h6>Channels: {{guild.channels}}</h6>
+          <h6>Roles: 19</h6>
+          <h6>Categories: 2</h6>
+        </div>
+      </div>
+      <div class="card text-bg-dark">
+        <div class="card-header">
+          Tickets Info
+        </div>
+        <div class="card-body">
+            <p>Use the <a href="/dashboard/{{guild.id}}/statistics" class="link-primary">Statistics</a> page</p>
+        </div>
+      </div>
+    </div>
+    <div id="command-configs" class="right_panel_el">
+      <div class="card text-bg-dark">
+        <div class="card-body">
+          <h5 class="card-title">Command Configs</h5>
+          <div class="commands">
+            <div class="command">
+              Re-Open<br>
+              <small style="font-size: 10px;">For opening closed tickets</small>
+            </div>
+            <div class="command">
+              Re-Open<br>
+              <small style="font-size: 10px;">For opening closed tickets</small>
+            </div>
+            <div class="command">
+              Re-Open<br>
+              <small style="font-size: 10px;">For opening closed tickets</small>
+            </div>
+            <div class="command">
+              Re-Open<br>
+              <small style="font-size: 10px;">For opening closed tickets</small>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="server-configs" class="right_panel_el">server-configs</div>
+    <div id="panel-configs" class="right_panel_el">panel-configs</div>
+    <div id="custom-commands" class="right_panel_el">custom-commands</div>
+    <div class="footer">
+      Partox by bbKubek
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="overflow-auto left-panel">
+      <div class="d-flex flex-column align-items-center info">
+        <img class="rounded-circle img-thumbnail mt-3" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:74px" alt="">
+        {{guild.name}}<br>
+        <span class="text-secondary">{{guild.members}} members</span>
+        <hr>
+      </div>
+      <div class="d-flex flex-column align-items-center pagination gap-1 p-0">
+        <a href="#server-info" class="pagination_link">Server Info</a>
+        <a href="#command-configs" class="pagination_link">Command Configs</a>
+        <a href="#server-configs" class="pagination_link">Server Configs</a>
+        <a href="#panel-configs" class="pagination_link">Panel Configs</a>
+        <a href="#custom-commands" class="pagination_link">Custom Commands</a>
+        <hr>
+        <a href="#" class="panel_link">Dashboard History</a>
+        <a href="#" class="panel_link">Statistics</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

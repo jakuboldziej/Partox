@@ -7,6 +7,9 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', views.loginView, name='login'),
+    path('manage-servers/', views.manage_servers, name='manage_servers'),
+    path('bot-status/', views.bot_status, name='bot_status'),
+    path('dashboard/<int:guild_id>', views.dashboard, name='dashboard'),
 
     path('oauth2/login', views.discord_login, name='oauth2_login'),
     path('oauth2/login/redirect', views.discord_login_redirect, name='oauth2_login_redirect'),

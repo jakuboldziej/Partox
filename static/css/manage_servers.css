@@ -1,0 +1,30 @@
+.main {
+  margin-top: 5vh;
+  margin-left: 15%;
+  width: 70%;
+  color: white;
+}
+.card {
+  max-width: 260px;
+  min-width: 260px;
+  max-height: 120px;
+  min-height: 120px;
+}
+.manageBtn {
+  position: absolute;
+  bottom: 10px;
+  width: 226px;
+}
+@media only screen and (max-width: 1600px) {
+  .main {
+    margin-bottom: 100px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .flex-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

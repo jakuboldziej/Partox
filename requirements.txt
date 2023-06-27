@@ -11,3 +11,4 @@ django
 pytimeparse
 tweepy
 djangorestframework
+django-jsonfield

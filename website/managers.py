@@ -1,5 +1,4 @@
 from django.contrib.auth import models
-from django.contrib.auth.models import User
 
 class DiscordUserOAuth2Manager(models.UserManager):
     def create_new_discord_user(self, user):
