@@ -18,8 +18,6 @@ class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # self.ipc = ipc.Server(self, secret_key=os.getenv("IPC_SECRET_KEY"))
-    
     # Loading Cogs
     async def load_extensions(self):
         path = os.listdir(os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'cogs')))
@@ -142,5 +140,4 @@ async def leave(ctx):
         await ctx.guild.voice_client.disconnect()
 
 if __name__ == "__main__":
-    # bot.ipc.start()
     bot.run(os.getenv("TOKEN"))

@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 
 class Ticket(commands.Cog):
     def __init__(self, bot):
+        self.url = "http://partox.ddns.net/api"
+        # self.url = "http://localhost:8000/api"
         self.bot = bot
         self.tickets = list()
         self.id = 1
@@ -43,7 +45,8 @@ class Ticket(commands.Cog):
     )
     async def new_ticket(self, interaction: discord.Interaction, user: discord.Member = None, reason: str = None):
         if interaction.user.guild_permissions.administrator:
-          await self.create_new_ticket(interaction, reason)
+          channel = await self.create_new_ticket(interaction)
+          await interaction.response.send_message(f"Ticket created {channel.mention}", ephemeral=True)
         else:
           await interaction.response.send_message("You don't have permissions to use this.", ephemeral=True)
 
@@ -160,7 +163,7 @@ class Ticket(commands.Cog):
 
     # API Requests
     async def get_tickets(self):
-      endpoint = "http://localhost:8000/api/get-tickets/"
+      endpoint = self.url + "/get-tickets/"
       async with aiohttp.ClientSession() as session:
          async with session.get(endpoint) as r:
             if r.status == 200:
@@ -169,14 +172,14 @@ class Ticket(commands.Cog):
               print("fetched")
 
     async def get_ticket(self, ticket_id):
-      endpoint = f"http://localhost:8000/api/get-ticket/{ticket_id}"
+      endpoint = self.url + f"/get-ticket/{ticket_id}"
       async with aiohttp.ClientSession() as session:
          async with session.get(endpoint) as r:
             if r.status == 200:
               print("fetched one")
 
     async def create_ticket(self, data):
-        endpoint = "http://localhost:8000/api/create-ticket/"
+        endpoint = self.url + "/create-ticket/"
         async with aiohttp.ClientSession() as session:
          async with session.post(endpoint, json=data) as r:
             if r.status == 200:
@@ -193,7 +196,7 @@ class Ticket(commands.Cog):
 
           ticket_json = await self.convert_to_str(ticket)      
 
-          endpoint = f"http://localhost:8000/api/add-user-to-ticket/{ticket_id}"
+          endpoint = self.url + f"/add-user-to-ticket/{ticket_id}"
           async with aiohttp.ClientSession() as session:
             async with session.post(endpoint, json=ticket_json) as r:
                 if r.status == 200:
@@ -204,7 +207,7 @@ class Ticket(commands.Cog):
 
           ticket_json = await self.convert_to_str(ticket)      
 
-          endpoint = f"http://localhost:8000/api/remove-user-from-ticket/{ticket_id}"
+          endpoint = self.url + f"/remove-user-from-ticket/{ticket_id}"
           async with aiohttp.ClientSession() as session:
             async with session.post(endpoint, json=ticket_json) as r:
                 if r.status == 200:
@@ -220,7 +223,7 @@ class Ticket(commands.Cog):
         ticket_json = await self.convert_to_str(ticket) 
         print(ticket_json)     
 
-        endpoint = f"http://localhost:8000/api/close-ticket/{ticket_id}"
+        endpoint = self.url + f"/close-ticket/{ticket_id}"
         async with aiohttp.ClientSession() as session:
           async with session.post(endpoint, json=ticket_json) as r:
               if r.status == 200:
@@ -230,7 +233,7 @@ class Ticket(commands.Cog):
       else:
         ticket['closed'] = False
         ticket_json = await self.convert_to_str(ticket) 
-        endpoint = f"http://localhost:8000/api/open-ticket/{ticket_id}"
+        endpoint = self.url + f"/open-ticket/{ticket_id}"
         async with aiohttp.ClientSession() as session:
           async with session.post(endpoint, json=ticket_json) as r:
               if r.status == 200:
@@ -306,7 +309,6 @@ class TicketButton(discord.ui.View):
           await interaction.delete_original_response()
           await interaction.channel.edit(name=f"ticket-{self.id}")
           self.ticket.bot.loop.create_task(self.ticket.manage_close_ticket(interaction.channel.name.split("-")[1], "open"))
-
              
         async def deleteTicketBtn(interaction: discord.Interaction):
           currentChannel = interaction.channel
