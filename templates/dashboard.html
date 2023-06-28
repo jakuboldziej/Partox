@@ -1,96 +1,18 @@
-{% extends 'base.html' %}
-{% load static %}
+  {% extends 'base.html' %}
+  {% load static %}
 
-{% block style %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-{% endblock %}
+  {% block title %}Dashboard{% endblock %}
 
-{% block content %}
-<a class="btn btn-primary" id="canvasBtn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Link with href</a>
-<div class="d-flex flex-row wrapper">
-  <div class="overflow-auto left-panel">
-    <div class="d-flex flex-column align-items-center info">
-      <img class="rounded-circle img-thumbnail mt-3" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:74px" alt="">
-      {{guild.name}}<br>
-      <span class="text-secondary">{{guild.members}} members</span>
-      <hr>
-    </div>
-    <div class="d-flex flex-column align-items-center pagination gap-1 p-0">
-      <a href="#server-info" class="pagination_link">Server Info</a>
-      <a href="#command-configs" class="pagination_link">Command Configs</a>
-      <a href="#server-configs" class="pagination_link">Server Configs</a>
-      <a href="#panel-configs" class="pagination_link">Panel Configs</a>
-      <a href="#custom-commands" class="pagination_link">Custom Commands</a>
-      <hr>
-      <a href="#" class="panel_link">Dashboard History</a>
-      <a href="#" class="panel_link">Statistics</a>
-    </div>
-  </div>
-  <div class="right_panel">
-    <div id="server-info" class="right_panel_el">
-      <div class="card text-bg-dark">
-        <div class="card-header">
-          Server Info
-        </div>
-        <div class="card-body">
-          <h6>Members: {{guild.members}}</h6>
-          <h6>Bots: {{guild.bots}}</h6>
-          <h6>Channels: {{guild.channels}}</h6>
-          <h6>Roles: 19</h6>
-          <h6>Categories: 2</h6>
-        </div>
-      </div>
-      <div class="card text-bg-dark">
-        <div class="card-header">
-          Tickets Info
-        </div>
-        <div class="card-body">
-            <p>Use the <a href="/dashboard/{{guild.id}}/statistics" class="link-primary">Statistics</a> page</p>
-        </div>
-      </div>
-    </div>
-    <div id="command-configs" class="right_panel_el">
-      <div class="card text-bg-dark">
-        <div class="card-body">
-          <h5 class="card-title">Command Configs</h5>
-          <div class="commands">
-            <div class="command">
-              Re-Open<br>
-              <small style="font-size: 10px;">For opening closed tickets</small>
-            </div>
-            <div class="command">
-              Re-Open<br>
-              <small style="font-size: 10px;">For opening closed tickets</small>
-            </div>
-            <div class="command">
-              Re-Open<br>
-              <small style="font-size: 10px;">For opening closed tickets</small>
-            </div>
-            <div class="command">
-              Re-Open<br>
-              <small style="font-size: 10px;">For opening closed tickets</small>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="server-configs" class="right_panel_el">server-configs</div>
-    <div id="panel-configs" class="right_panel_el">panel-configs</div>
-    <div id="custom-commands" class="right_panel_el">custom-commands</div>
-    <div class="footer">
-      Partox by bbKubek
-    </div>
-  </div>
-</div>
-<script src="{% static 'js/dashboard.js' %}"></script>
+  {% block style %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  {% endblock %}
 
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
+  {% block content %}
+  <svg id="canvasBtn" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 50 50" style="fill:#FFFFFF;">
+  <path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"></path>
+  </svg>
+
+  <div class="d-flex flex-row wrapper">
     <div class="overflow-auto left-panel">
       <div class="d-flex flex-column align-items-center info">
         <img class="rounded-circle img-thumbnail mt-3" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:74px" alt="">
@@ -105,10 +27,32 @@
         <a href="#panel-configs" class="pagination_link">Panel Configs</a>
         <a href="#custom-commands" class="pagination_link">Custom Commands</a>
         <hr>
-        <a href="#" class="panel_link">Dashboard History</a>
-        <a href="#" class="panel_link">Statistics</a>
+        <a href="#dashboard-history" class="pagination_link">Dashboard History</a>
+        <a href="#statistics" class="pagination_link">Statistics</a>
+      </div>
+    </div>
+    <div class="right_panel">
+      <div id="server-info" class="right_panel_el">
+        {% include 'dashboard/server_info.html' %}
+      </div>
+      <div id="command-configs" class="right_panel_el">
+        {% include 'dashboard/command_configs.html' %}
+      </div>
+      <div id="server-configs" class="right_panel_el">
+        {% include 'dashboard/server_configs.html' %}
+      </div>
+      <div id="panel-configs" class="right_panel_el">Soon...</div>
+      <div id="custom-commands" class="right_panel_el">Soon...</div>
+      <div id="dashboard-history" class="right_panel_el">
+        {% include 'dashboard/dashboard_history.html' %}
+      </div>
+      <div id="statistics" class="right_panel_el">
+        {% include 'dashboard/statistics.html' %}
+      </div>
+      <div class="footer">
+        Partox by bbKubek
       </div>
     </div>
   </div>
-</div>
-{% endblock %}
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  {% endblock %}

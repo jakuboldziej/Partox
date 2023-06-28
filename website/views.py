@@ -11,6 +11,10 @@ from dotenv import load_dotenv
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path)
 
+# 404 Handling
+def view_page_not_found(request):
+    return render(request, '404.html')
+
 # Views
 
 @login_required()
@@ -22,8 +26,12 @@ def home(request):
     }
     return render(request, "index.html", context)
 
+def docs(request):
+    return render(request, "docs.html")
+
 @login_required()
 def manage_servers(request):
+    sync_guilds(request)
     guilds = request.session['guilds']
     shared_guilds = guilds[0]
     admin_guilds = [guild for guild in guilds[1] if guild not in shared_guilds]
@@ -59,7 +67,7 @@ def bot_status(request):
         }
             
     response = requests.request("POST", url, data=payload, headers=headers)
-    print(response)
+    # print(response)
     response = response.json()
 
     monitor = response['monitors'][0]
@@ -70,22 +78,29 @@ def bot_status(request):
     }
     return render(request, "bot_status.html", context)
 
-def loginView(request):
+def login_view(request):
     if request.user.is_authenticated:
         return redirect("/")
     else:
         return render(request, "login.html")
 
+def sync_guilds(request):
+    credentials = {'access_token': request.user.access_token} 
+    data = manageGuilds(credentials)
+    request.session['guilds'] = data[1]
+
+    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
 # Discord Auth
 
-auth_url_discord_localhost = "https://discord.com/api/oauth2/authorize?client_id=979091562724200569&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify%20guilds"
-auth_url_discord_homeserver_8080 = "https://discord.com/api/oauth2/authorize?client_id=979091562724200569&redirect_uri=http%3A%2F%2F188.122.23.154%3A8080%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify%20guilds"
-auth_url_discord_homeserver_8000 = "https://discord.com/api/oauth2/authorize?client_id=979091562724200569&redirect_uri=http%3A%2F%2F188.122.23.154%3A8000%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify%20guilds"
-auth_url_no_ip = "https://discord.com/api/oauth2/authorize?client_id=979091562724200569&redirect_uri=http%3A%2F%2Fpartox.ddns.net%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify%20guilds"
+auth_url_discord_localhost = os.getenv("AUTH_URL_DISCORD_LOCALHOST")
+auth_url_discord_homeserver_8080 = os.getenv("AUTH_URL_DISCORD_HOMESERVER_8080")
+auth_url_discord_homeserver_8000 = os.getenv("AUTH_URL_DISCORD_HOMESERVER_8000")
+auth_url_no_ip = os.getenv("AUTH_URL_NO_IP")
 
 def discord_login(request):
     # return redirect(auth_url_discord_homeserver_8080)
-    return redirect(auth_url_no_ip)
+    return redirect(auth_url_discord_localhost)
 
 def discord_login_redirect(request):
     code = request.GET.get('code')
@@ -110,8 +125,8 @@ def exchange_code(code):
         "client_secret": os.getenv("CLIENT_SECRET"),
         "grant_type": "authorization_code",
         "code": code,
-        # "redirect_uri": "http://localhost:8000/oauth2/login/redirect", 
-        "redirect_uri": "https://partox.ddns.net/oauth2/login/redirect", 
+        "redirect_uri": "http://localhost:8000/oauth2/login/redirect", 
+        # "redirect_uri": "http://partox.ddns.net/oauth2/login/redirect", 
         # "redirect_uri": "http://188.122.23.154:8080/oauth2/login/redirect",
         "scope": "guilds, identify",
     }
@@ -132,6 +147,7 @@ def manageGuilds(credentials):
         'Authorization': f'Bearer {access_token}'
     })
     user = user.json()
+    user['access_token'] = access_token
 
     user_guilds = requests.get('https://discord.com/api/v6/users/@me/guilds', headers={
         'Authorization': f'Bearer {access_token}'

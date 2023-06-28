@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Manage Servers{% endblock %}
+
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/manage_servers.css' %}">
 {% endblock %}
@@ -10,15 +12,15 @@
   <div class="border-bottom border-secondary-subtle w-100">
     <h3><b>Servers with Partox</b></h3>
   </div>
-  <div class="d-flex flex-row my-3 gap-4 flex-wrap">
+  <div class="d-flex flex-row my-3 gap-3 flex-wrap">
     {% for guild in shared_guilds %}
-    <div class="card text-bg-dark border-0 border-top border-success">
+    <div class="card text-bg-dark border-0 border-top border-success shadow">
       <div class="card-body position-relative">
         <h6 class="card-title d-flex">
           <img class="rounded-circle me-4" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:45px" alt="">
           {{guild.name}}
         </h6>
-        <a href="/dashboard/{{guild.id}}#panel-configs" class="btn btn-outline-success manageBtn">Manage</a>
+        <a href="{% url 'dashboard' guild.id %}#server-info" class="btn btn-outline-success manageBtn">Manage</a>
       </div>
     </div>
     {% endfor %}
@@ -26,15 +28,15 @@
   <div class="border-bottom border-secondary-subtle w-100">
     <h3><b>Servers without Partox</b></h3>
   </div>
-  <div class="d-flex flex-row my-3 gap-4 flex-wrap">
+  <div class="d-flex flex-row my-3 gap-3 flex-wrap">
     {% for guild in admin_guilds %}
-    <div class="card text-bg-dark border-0 border-top border-warning">
+    <div class="card text-bg-dark border-0 border-top border-warning shadow">
       <div class="card-body position-relative">
         <h6 class="card-title d-flex">
           <img class="rounded-circle me-4" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:45px" alt="">
           {{guild.name}}
         </h6>
-        <a href="/invite/{{guild.id}}" class="btn btn-outline-warning manageBtn">Invite</a>
+        <a href="https://discord.com/api/oauth2/authorize?client_id=979091562724200569&permissions=8&scope=bot&guild_id=1123380113749331988&guild_id={{guild.id}}" class="btn btn-outline-warning manageBtn">Invite</a>
       </div>
     </div>
     {% endfor %}

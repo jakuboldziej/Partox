@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}API Home{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/api/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="main">
+  <h1>API Home Page</h1>
+  <div class="card text-bg-dark">
+    <div class="card-header">
+      Info
+    </div>
+    <div class="card-body">
+      Overall sent requests: asdf<br>
+      Unique users: asdf
+
+    </div>
+    <div class="card-footer text-secondary shadow">
+      <p>Use the <a href="{% url 'APIstatistics' %}" class="link-primary link-underline-opacity-0">Statistics</a> page</p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  Partox by bbKubek
+</div>
+{% endblock %}

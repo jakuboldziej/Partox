@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Login{% endblock %}
+
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center flex-column">
-    <a href="/oauth2/login" class="btn btn-success">Login with discord</a>
+    <a href="{% url 'oauth2_login' %}" class="btn btn-success">Login with discord</a>
 </div>
 {% endblock %}

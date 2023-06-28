@@ -8,46 +8,50 @@ import os
 
 from cogs.twitchAPI import TwitchAPI
 
+load_dotenv(find_dotenv())
+
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="/p", intents=intents)
+class Bot(commands.Bot):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
+        # self.ipc = ipc.Server(self, secret_key=os.getenv("IPC_SECRET_KEY"))
+    
+    # Loading Cogs
+    async def load_extensions(self):
+        path = os.listdir(os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'cogs')))
+        for filename in path:
+            if filename.endswith('.py'):
+                await self.load_extension(f'cogs.{filename[:-3]}')
+        print(f"{len([filename for filename in path if filename.endswith('.py')])} cogs loaded.")
+    
+    async def on_ready(self):
+        print(f"{self.user} is online.")
+        await self.wait_until_ready()
+        await self.load_extensions()
+
+        statusloop.start()
+        TwitchAPI(self).check_twitch_stream.start()
+
+    async def on_command_error(self, ctx, error):
+        author = ctx.message.author.mention
+        dm = await ctx.author.create_dm()
+
+        if isinstance(error, commands.CommandNotFound):
+            try:
+                await ctx.send(f"{author} no command found", delete_after=10)
+                await dm.send("Check the command list at $help")
+            except:
+                raise error
+
+        if isinstance(error, MissingPermissions):
+            await ctx.send("Sorry, you do not have permissions to do that!", delete_after=5)
+
+bot = Bot(command_prefix="/p", intents=intents)
 bot.remove_command("help")
-
-# Loading Cogs
-async def load_extensions():
-    path = os.listdir(os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'cogs')))
-    for filename in path:
-        if filename.endswith('.py'):
-            await bot.load_extension(f'cogs.{filename[:-3]}')
-    print(f"{len([filename for filename in path if filename.endswith('.py')])} cogs loaded.")
-
-#%% Events
-@bot.event
-async def on_ready():
-    print(f"{bot.user} is online.")
-    await bot.wait_until_ready()
-    await load_extensions()
-
-    statusloop.start()
-    TwitchAPI(bot).check_twitch_stream.start()
-
-@bot.event
-async def on_command_error(ctx, error):
-    author = ctx.message.author.mention
-    dm = await ctx.author.create_dm()
-
-    if isinstance(error, commands.CommandNotFound):
-        try:
-            await ctx.send(f"{author} no command found", delete_after=10)
-            await dm.send("Check the command list at $help")
-        except:
-            raise error
-
-    if isinstance(error, MissingPermissions):
-        await ctx.send("Sorry, you do not have permissions to do that!", delete_after=5)
 
 #%% Loops
 
@@ -137,5 +141,6 @@ async def leave(ctx):
     if(ctx.voice_client):
         await ctx.guild.voice_client.disconnect()
 
-load_dotenv(find_dotenv())
-bot.run(os.getenv("TOKEN"))
+if __name__ == "__main__":
+    # bot.ipc.start()
+    bot.run(os.getenv("TOKEN"))

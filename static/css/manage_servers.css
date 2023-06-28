@@ -5,15 +5,15 @@
   color: white;
 }
 .card {
-  max-width: 260px;
-  min-width: 260px;
+  max-width: 250px;
+  min-width: 250px;
   max-height: 120px;
   min-height: 120px;
 }
 .manageBtn {
   position: absolute;
   bottom: 10px;
-  width: 226px;
+  width: 220px;
 }
 @media only screen and (max-width: 1600px) {
   .main {

@@ -1,7 +1,9 @@
 .left-panel {
+  display: block;
   width: 240px;
   height: calc(100vh - 57px);
   background-color: #191925;
+  transition: 1s;
 }
 .img-thumbnail  {
   background-color: #3b4452;
@@ -49,7 +51,7 @@ a {
 .right_panel_el {
   width: 100%;
 }
-#server-info {
+#server-info, #server-configs, #command-configs, #panel-configs, #custom-commands {
   padding: 30px;
   flex-direction: row;
   flex-wrap: wrap;
@@ -64,15 +66,10 @@ a {
   min-width: 538px;
 }
 #command-configs {
-  padding: 20px;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
   height: calc(100vh - 57px - 60px);
 }
 #command-configs .card {
   width: 70%;
-  height: 1000px;
 }
 #command-configs .command {
   background-color: #36455e;
@@ -94,13 +91,25 @@ a {
   flex-wrap: wrap;
   gap: 10px;
 }
+#server-configs .card {
+  width: 40%;
+}
+#server-configs .form-text {
+  color: white;
+}
 #canvasBtn {
   display: none;
   position: absolute;
   top: 50%;
+  left: -22px;
   transform: translate(0, -50%);
+  background-color: #191925;
+  padding: 5px;
+  z-index: 9998;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
 }
-@media only screen and (max-width: 757px) {
+@media only screen and (max-width: 990px) {
   .footer { 
     width: 100vw;
   }
@@ -110,20 +119,19 @@ a {
   #server-info {
     padding: 20px 0 0 0;
   }
-  #server-info .card {
+  #server-info .card, #server-configs .card, #command-configs .card, #command-configs .command {
     width: 100%;
     min-width: 0;
   }
-  #command-configs {
+  #command-configs, #server-configs {
     padding: 0;
-  }
-  #command-configs .command{
-    width: 100%;
-  }
-  #command-configs .card {
-    width: 100%;
   }
   #canvasBtn {
     display: block;
+  }
+  .left-panel {
+    display: none;
+    position: absolute;
+    z-index: 9999;
   }
 }

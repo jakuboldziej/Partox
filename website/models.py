@@ -13,7 +13,8 @@ class DiscordUser(models.Model):
     mfa_enabled = models.BooleanField()
     last_login = models.DateTimeField(null=True)
     is_active = models.BooleanField(default=True)
-    guilds = models.JSONField()
+    access_token = models.CharField(max_length=1000)
+    guilds = models.JSONField(null=True)
 
     def is_authenticated(self):
         return True

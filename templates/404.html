@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}404 Not Found{% endblock %}
+
+{% block content %}
+<div class="position-absolute top-50 start-50 translate-middle ">
+  <div class="text-center">
+    <h1 class="display-1 fw-bold">404</h1>
+    <p class="fs-3">
+      <span class="text-danger">Opps!</span> Nie znaleziono strony
+    </p>
+    <p class="lead">Strona której szukasz nie istnieje.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+  </div>
+</div>
+{% endblock %}

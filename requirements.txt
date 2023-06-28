@@ -2,6 +2,7 @@ git+https://github.com/Rapptz/discord.py
 PyNaCl
 pandas
 discord
+nextcord-ext-ipc
 requests
 asyncio
 dnspython==1.16.0
