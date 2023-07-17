@@ -58,6 +58,10 @@ a {
   gap: 20px;
   justify-content: center;
 }
+#server-configs, #command-configs {
+  flex-direction: column;
+  align-items: center;
+}
 #server-info .card-header { 
   background-color: #3b4452;
 }
@@ -108,6 +112,9 @@ a {
   z-index: 9998;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
+}
+#canvasBtn:hover {
+  cursor: pointer;
 }
 @media only screen and (max-width: 990px) {
   .footer { 

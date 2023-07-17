@@ -18,21 +18,20 @@ class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    # Loading Cogs
     async def load_extensions(self):
         path = os.listdir(os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'cogs')))
         for filename in path:
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
         print(f"{len([filename for filename in path if filename.endswith('.py')])} cogs loaded.")
-    
+
     async def on_ready(self):
-        print(f"{self.user} is online.")
         await self.wait_until_ready()
         await self.load_extensions()
 
         statusloop.start()
         TwitchAPI(self).check_twitch_stream.start()
+        print(f"{self.user} is online.")
 
     async def on_command_error(self, ctx, error):
         author = ctx.message.author.mention
@@ -41,19 +40,19 @@ class Bot(commands.Bot):
         if isinstance(error, commands.CommandNotFound):
             try:
                 await ctx.send(f"{author} no command found", delete_after=10)
-                await dm.send("Check the command list at $help")
+                await dm.send("Check the command list at /help")
             except:
                 raise error
 
         if isinstance(error, MissingPermissions):
             await ctx.send("Sorry, you do not have permissions to do that!", delete_after=5)
 
-bot = Bot(command_prefix="/p", intents=intents)
+bot = Bot(command_prefix="/", intents=intents)
 bot.remove_command("help")
 
 #%% Loops
 
-status = cycle(["/phelp", "Author: bbKubek"])
+status = cycle(["/help", "Author: bbKubek"])
 @tasks.loop(seconds=30)
 async def statusloop():
     await bot.change_presence(activity=discord.Game(next(status)))

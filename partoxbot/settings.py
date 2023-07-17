@@ -14,7 +14,7 @@ load_dotenv(dotenv_path)
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -114,10 +114,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 if DEBUG:
-    # Development
     STATICFILES_DIRS = ('static',)
 else:
-    # Production
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'

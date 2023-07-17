@@ -1,14 +1,18 @@
 from django.db import models
+from datetime import datetime
 
-# Create your models here.
 class Ticket(models.Model):
-    # users = models.TextField(max_length=10000)
     guild_id = models.IntegerField()
     users = models.JSONField()
     closed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=datetime.now)
 
 class Giveaway(models.Model):
     guild_id = models.IntegerField()
-    name = models.CharField(max_length=100, default="")
-    # users = models.TextField(max_length=10000)
-    users = models.JSONField()
+    prize = models.CharField(max_length=1000)
+    entries = models.JSONField(null=True)
+    winners = models.JSONField(null=True)
+    possible_winners = models.IntegerField()
+    duration = models.DateTimeField(default=datetime.now)
+    created_at = models.DateTimeField(default=datetime.now)
+    ended = models.BooleanField()

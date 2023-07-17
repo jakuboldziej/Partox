@@ -3,19 +3,22 @@ from discord.ext import commands
 from discord import app_commands
 from discord.utils import get
 
-import json
 import aiohttp
 from asyncio import sleep
 from datetime import datetime, timedelta
+import os
+from partoxbot import settings
 
 class Ticket(commands.Cog):
     def __init__(self, bot):
-        self.url = "http://partox.ddns.net/api"
-        # self.url = "http://localhost:8000/api"
+        if settings.DEBUG:
+            self.url = os.getenv("API_URL_LOCALHOST")
+        else:
+            self.url = os.getenv("API_URL_PARTOX")
         self.bot = bot
+        
         self.tickets = list()
         self.id = 1
-        self.bbb = None
 
         self.bot.loop.create_task(self.get_tickets())
 
@@ -134,7 +137,8 @@ class Ticket(commands.Cog):
         data = {
            'guild_id': guild.id,
            'users': [interaction.user.name],
-           'closed': False
+           'closed': False,
+           'created_at': str(datetime.now())
         }
         self.bot.loop.create_task(self.create_ticket(data))
 
@@ -169,7 +173,7 @@ class Ticket(commands.Cog):
             if r.status == 200:
               tickets = await self.convert_to_member(await r.json())
               self.tickets = tickets
-              print("fetched")
+              print("fetched tickets")
 
     async def get_ticket(self, ticket_id):
       endpoint = self.url + f"/get-ticket/{ticket_id}"
@@ -221,7 +225,6 @@ class Ticket(commands.Cog):
       if type == "close":
         ticket['closed'] = True
         ticket_json = await self.convert_to_str(ticket) 
-        print(ticket_json)     
 
         endpoint = self.url + f"/close-ticket/{ticket_id}"
         async with aiohttp.ClientSession() as session:

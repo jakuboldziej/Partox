@@ -6,6 +6,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
+from api.models import Ticket, Giveaway
 # from .serializers import SettingsSerializer
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
@@ -52,7 +53,12 @@ def dashboard(request, guild_id):
     guild['channels'] = len(guildInfo[1])
     guild['bots'] = len(guildInfo[2])
 
+    tickets = Ticket.objects.filter(guild_id=guild_id)
+    giveaways = Giveaway.objects.filter(guild_id=guild_id)
+
     context = {
+        'tickets': tickets,
+        'giveaways': giveaways,
         'guild': guild
     }
     return render(request, "dashboard.html", context)
