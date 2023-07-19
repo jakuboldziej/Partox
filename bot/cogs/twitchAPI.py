@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import requests
 import os
+from main import statusloop
 
 class TwitchAPI(commands.Cog):
     def __init__(self, bot):
@@ -45,9 +46,13 @@ class TwitchAPI(commands.Cog):
                 embed.set_author(name=stream_data['data'][0]['user_name'], icon_url="https://cdn.discordapp.com/avatars/408744552875163648/46eb06b02b67d8f42a22a5d4ae392c9f.webp?size=128")
                 embed.set_image(url=stream_data['data'][0]['thumbnail_url'].replace('{width}', '350').replace('{height}', '200'))
 
+                statusloop.stop()
+                await self.bot.change_presence(activity=discord.Streaming(name="Muffin is live!", url="https://www.twitch.tv/muffler0"))
+
                 is_muffler_live = True
                 await channel.send("<@&1119036686744178898> Muffin is live, come say hi :happymuffin:", embed=embed)
         else:
+            statusloop.start()
             is_muffler_live = False
 
 async def setup(bot):
