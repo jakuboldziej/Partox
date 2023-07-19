@@ -7,14 +7,11 @@ import pytimeparse as parser
 from datetime import datetime
 from random import choice
 import os
-from partoxbot import settings
 
 class Giveaway(commands.Cog):
     def __init__(self, bot):
-        if settings.DEBUG:
-            self.url = os.getenv("API_URL_LOCALHOST")
-        else:
-            self.url = os.getenv("API_URL_PARTOX")
+        # self.url = os.getenv("API_URL_LOCALHOST")
+        self.url = os.getenv("API_URL_PARTOX")
         self.bot = bot
 
         self.id = 1

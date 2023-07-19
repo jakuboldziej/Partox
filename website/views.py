@@ -63,27 +63,6 @@ def dashboard(request, guild_id):
     }
     return render(request, "dashboard.html", context)
 
-def bot_status(request):
-    url = "https://api.uptimerobot.com/v2/getMonitors"
-            
-    payload = f"api_key={os.getenv('API_KEY')}&format=json&logs=1"
-    headers = {
-        'content-type': "application/x-www-form-urlencoded",
-        'cache-control': "no-cache"
-        }
-            
-    response = requests.request("POST", url, data=payload, headers=headers)
-    # print(response)
-    response = response.json()
-
-    monitor = response['monitors'][0]
-    print(monitor['logs'])
-
-    context = {
-        'monitor': monitor
-    }
-    return render(request, "bot_status.html", context)
-
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("/")
