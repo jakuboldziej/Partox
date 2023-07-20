@@ -52,6 +52,8 @@ def dashboard(request, guild_id):
     guild['members'] = len(guildInfo[0]) - len(guildInfo[2])
     guild['channels'] = len(guildInfo[1])
     guild['bots'] = len(guildInfo[2])
+    guild['roles'] = len(guildInfo[3]) - 1
+    guild['categories'] = len([x for x in guildInfo[1] if x['type'] == 4])
 
     tickets = Ticket.objects.filter(guild_id=guild_id)
     giveaways = Giveaway.objects.filter(guild_id=guild_id)
@@ -75,6 +77,36 @@ def sync_guilds(request):
     request.session['guilds'] = data[1]
 
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
+def edit_ticket(request, guild_id, ticket_id):
+    ticket = Ticket.objects.get(id=int(ticket_id))
+    guilds = request.session['guilds'][0]
+
+    guild = next(guild for guild in guilds if int(guild['id']) == guild_id)
+    guildInfo = getGuildInfo(guild_id)
+
+    guild['members'] = len(guildInfo[0]) - len(guildInfo[2])
+
+    context = {
+        'guild': guild,
+        'ticket': ticket,
+    }
+    return render(request, "dashboard/edit_ticket.html", context)
+
+def edit_giveaway(request, guild_id, giveaway_id):
+    giveaway = Giveaway.objects.get(id=int(giveaway_id))
+    guilds = request.session['guilds'][0]
+
+    guild = next(guild for guild in guilds if int(guild['id']) == guild_id)
+    guildInfo = getGuildInfo(guild_id)
+
+    guild['members'] = len(guildInfo[0]) - len(guildInfo[2])
+
+    context = {
+        'guild': guild,
+        'giveaway': giveaway,
+    }
+    return render(request, "dashboard/edit_giveaway.html", context)
 
 # Discord Auth
 
@@ -164,4 +196,9 @@ def getGuildInfo(guild_id):
     })
     channels = channels.json()
 
-    return [members, channels, bots]
+    roles = requests.get(f'https://discordapp.com/api/v6//guilds/{str(guild_id)}/roles', headers={
+        'Authorization': f'Bot {os.getenv("TOKEN")}'
+    })
+    roles = roles.json()
+
+    return [members, channels, bots, roles]

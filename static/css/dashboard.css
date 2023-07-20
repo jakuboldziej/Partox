@@ -42,7 +42,7 @@ a {
   display: none;
 }
 .footer {
-  width: calc(100vw - 240px);
+  width: 100vw;
   position: fixed;
 }
 .right_panel {
@@ -51,8 +51,8 @@ a {
 .right_panel_el {
   width: 100%;
 }
-#server-info, #server-configs, #command-configs, #panel-configs, #custom-commands {
-  padding: 30px;
+#server-info, #server-configs, #command-configs, #panel-configs, #custom-commands, #statistics {
+  padding: 30px;  
   flex-direction: row;
   flex-wrap: wrap;
   gap: 20px;
@@ -101,6 +101,32 @@ a {
 #server-configs .form-text {
   color: white;
 }
+#statistics .tickets, #statistics .giveaways {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#statistics .ticket, #statistics .giveaway {
+  position: relative;
+  background-color: #36455e;
+  border-radius: 10px;
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+}
+#statistics .ticket:hover, #statistics .giveaway:hover {
+  cursor: pointer;
+  filter: brightness(110%);
+  position: relative;
+  left: 0.1rem;
+  top: 0.1rem;
+}
+#statistics #ticket_status, #statistics #giveaway_status {
+  position: absolute;
+  right: 15px;
+  top: 20px;
+}
 #canvasBtn {
   display: none;
   position: absolute;
@@ -117,9 +143,6 @@ a {
   cursor: pointer;
 }
 @media only screen and (max-width: 990px) {
-  .footer { 
-    width: 100vw;
-  }
   .card, .right_panel {
     width: 100%;
   }

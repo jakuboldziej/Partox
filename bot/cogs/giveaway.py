@@ -10,8 +10,8 @@ import os
 
 class Giveaway(commands.Cog):
     def __init__(self, bot):
-        # self.url = os.getenv("API_URL_LOCALHOST")
-        self.url = os.getenv("API_URL_PARTOX")
+        self.url = os.getenv("API_URL_LOCALHOST")
+        # self.url = os.getenv("API_URL_PARTOX")
         self.bot = bot
 
         self.id = 1
@@ -268,5 +268,5 @@ class GiveawayButton(discord.ui.View):
             await interaction.response.send_message(f"{interaction.user.mention}! You already entered the giveaway!", ephemeral=True, delete_after=10)
 
 async def setup(bot):
-    await bot.add_cog(Giveaway(bot), guilds=[discord.Object(id=488258025665200129)])
+    await bot.add_cog(Giveaway(bot), guilds=[discord.Object(id=488258025665200129), discord.Object(id=743154237445242970)])
     # await bot.add_cog(Giveaway(bot))

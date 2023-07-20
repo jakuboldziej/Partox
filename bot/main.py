@@ -17,6 +17,7 @@ intents.message_content = True
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.activity_list = cycle(["/help", "Author: bbKubek"])
 
     async def load_extensions(self):
         path = os.listdir(os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'cogs')))
@@ -25,11 +26,15 @@ class Bot(commands.Bot):
                 await self.load_extension(f'cogs.{filename[:-3]}')
         print(f"{len([filename for filename in path if filename.endswith('.py')])} cogs loaded.")
 
+    @tasks.loop(seconds=30)
+    async def statusloop(self):
+        await bot.change_presence(activity=discord.Game(next(self.activity_list)))
+
     async def on_ready(self):
         await self.wait_until_ready()
         await self.load_extensions()
 
-        statusloop.start()
+        self.statusloop.start()
         TwitchAPI(self).check_twitch_stream.start()
         print(f"{self.user} is online.")
 
@@ -49,13 +54,6 @@ class Bot(commands.Bot):
 
 bot = Bot(command_prefix="/", intents=intents)
 bot.remove_command("help")
-
-#%% Loops
-
-status = cycle(["/help", "Author: bbKubek"])
-@tasks.loop(seconds=30)
-async def statusloop():
-    await bot.change_presence(activity=discord.Game(next(status)))
 
 #%% Commands
 

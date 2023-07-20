@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Edit ticket{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<svg id="canvasBtn" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 50 50" style="fill:#FFFFFF;">
+<path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"></path>
+</svg>
+
+<div class="d-flex flex-row wrapper">
+  <div class="overflow-auto left-panel">
+    <div class="d-flex flex-column align-items-center info">
+      <img class="rounded-circle img-thumbnail mt-3" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.jpg" style="width:74px" alt="">
+      {{guild.name}}<br>
+      <span class="text-secondary">{{guild.members}} members</span>
+      <hr>
+    </div>
+    <div class="d-flex flex-column align-items-center pagination gap-1 p-0">
+      <a href="{% url 'dashboard' guild.id %}#server-info" class="pagination_link">Server Info</a>
+      <a href="{% url 'dashboard' guild.id %}#command-configs" class="pagination_link">Command Configs</a>
+      <a href="{% url 'dashboard' guild.id %}#server-configs" class="pagination_link">Server Configs</a>
+      <a href="{% url 'dashboard' guild.id %}#panel-configs" class="pagination_link">Panel Configs</a>
+      <a href="{% url 'dashboard' guild.id %}#custom-commands" class="pagination_link">Custom Commands</a>
+      <hr>
+      <a href="{% url 'dashboard' guild.id %}#dashboard-history" class="pagination_link">Dashboard History</a>
+      <a href="{% url 'dashboard' guild.id %}#statistics" class="pagination_link active">Statistics</a>
+    </div>
+  </div>
+  <div class="right_panel">
+    {{ticket}}
+  </div>
+  <div class="footer">
+    Partox by bbKubek
+  </div>
+</div>
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

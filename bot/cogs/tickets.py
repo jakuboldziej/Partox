@@ -10,8 +10,8 @@ import os
 
 class Ticket(commands.Cog):
     def __init__(self, bot):
-        # self.url = os.getenv("API_URL_LOCALHOST")
-        self.url = os.getenv("API_URL_PARTOX")
+        self.url = os.getenv("API_URL_LOCALHOST")
+        # self.url = os.getenv("API_URL_PARTOX")
         self.bot = bot
         
         self.tickets = list()
@@ -328,4 +328,4 @@ class TicketButton(discord.ui.View):
          self.add_item(button[0])
           
 async def setup(bot):
-    await bot.add_cog(Ticket(bot), guilds=[discord.Object(id=488258025665200129)])
+    await bot.add_cog(Ticket(bot), guilds=[discord.Object(id=488258025665200129), discord.Object(id=743154237445242970)])

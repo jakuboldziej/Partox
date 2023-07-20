@@ -35,4 +35,4 @@ class Help(commands.Cog):
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 async def setup(bot):
-    await bot.add_cog(Help(bot), guilds=[discord.Object(id=488258025665200129)])
+    await bot.add_cog(Help(bot), guilds=[discord.Object(id=488258025665200129), discord.Object(id=743154237445242970)])
