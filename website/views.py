@@ -18,7 +18,6 @@ def view_page_not_found(request):
 
 # Views
 
-@login_required()
 def home(request):
     user = request.user
 
