@@ -115,8 +115,8 @@ auth_url_discord_homeserver_8000 = os.getenv("AUTH_URL_DISCORD_HOMESERVER_8000")
 auth_url_no_ip = os.getenv("AUTH_URL_NO_IP")
 
 def discord_login(request):
-    # return redirect(auth_url_discord_homeserver_8080)
-    return redirect(auth_url_discord_localhost)
+    # return redirect(auth_url_discord_localhost)
+    return redirect(auth_url_no_ip)
 
 def discord_login_redirect(request):
     code = request.GET.get('code')
@@ -141,8 +141,8 @@ def exchange_code(code):
         "client_secret": os.getenv("CLIENT_SECRET"),
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "http://localhost:8000/oauth2/login/redirect", 
-        # "redirect_uri": "http://partox.ddns.net/oauth2/login/redirect", 
+        # "redirect_uri": "http://localhost:8000/oauth2/login/redirect", 
+        "redirect_uri": "http://partox.ddns.net/oauth2/login/redirect", 
         # "redirect_uri": "http://188.122.23.154:8080/oauth2/login/redirect",
         "scope": "guilds, identify",
     }

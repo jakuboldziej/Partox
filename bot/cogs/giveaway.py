@@ -10,8 +10,8 @@ import os
 
 class Giveaway(commands.Cog):
     def __init__(self, bot):
-        self.url = os.getenv("API_URL_LOCALHOST")
-        # self.url = os.getenv("API_URL_PARTOX")
+        # self.url = os.getenv("API_URL_LOCALHOST")
+        self.url = os.getenv("API_URL_PARTOX")
         self.bot = bot
 
         self.id = 1

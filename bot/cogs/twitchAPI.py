@@ -49,7 +49,7 @@ class TwitchAPI(commands.Cog):
                 await self.bot.change_presence(activity=discord.Streaming(name="Muffin is live!", url="https://www.twitch.tv/muffler0"))
 
                 is_muffler_live = True
-                await channel.send("<@&1119036686744178898> Muffin is live, come say hi :happymuffin:", embed=embed)
+                await channel.send("<@&864565090015117332> Muffin is live, come say hi :happymuffin:", embed=embed)
         else:
             try:
                 self.bot.statusloop.start()
