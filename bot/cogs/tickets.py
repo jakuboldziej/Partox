@@ -34,7 +34,7 @@ class Ticket(commands.Cog):
           embed = discord.Embed(title=title, color=discord.Color.dark_green())
           embed.add_field(name="", value="To create a ticket react with 📩")
 
-          await interaction.response.send_message(embed=embed, view=TicketButton(self, "create_new_ticket"))
+          await interaction.response.send_message(embed=embed, view=TicketButton(self, "create_new_ticket", timeout=None))
         else:
           await interaction.response.send_message("You don't have permissions to use this.", ephemeral=True)
 
@@ -108,17 +108,16 @@ class Ticket(commands.Cog):
         except:
            self.id = 1
 
-        support_role = get(guild.roles, id=488328320497221632)
-
         overwrites = {
           guild.default_role: discord.PermissionOverwrite(view_channel=False),
           interaction.user: discord.PermissionOverwrite(view_channel=True),
-          support_role: discord.PermissionOverwrite(view_channel=True),
         }
         
         if interaction.user is not None:
           overwrites[interaction.user] = discord.PermissionOverwrite(view_channel=True)
-          
+
+        print(guild.id, overwrites)  
+        
         channel = await guild.create_text_channel(f'ticket-{self.id}', overwrites=overwrites)
         
         if reason is not None:
@@ -243,7 +242,7 @@ class Ticket(commands.Cog):
 
 class TicketButton(discord.ui.View):
     def __init__(self, ticket: Ticket, event, id = None):
-        super().__init__()
+        super().__init__(timeout=None)
         self.value = None
         self.ticket = ticket
         self.event = event

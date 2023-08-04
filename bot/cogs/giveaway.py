@@ -253,7 +253,7 @@ class Giveaway(commands.Cog):
 
 class GiveawayButton(discord.ui.View):
     def __init__(self, giveaway: Giveaway, gId, data):
-        super().__init__()
+        super().__init__(timeout=None)
         self.value = None
         self.gId = gId
         self.giveaway = giveaway

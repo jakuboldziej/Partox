@@ -71,7 +71,7 @@ def login_view(request):
         return render(request, "login.html")
 
 def sync_guilds(request):
-    credentials = {'access_token': request.user.access_token} 
+    credentials = {'access_token': request.session['access_token']}
     data = manageGuilds(credentials)
     request.session['guilds'] = data[1]
 
@@ -122,6 +122,7 @@ def discord_login_redirect(request):
     code = request.GET.get('code')
     data = exchange_code(code)
     request.session['guilds'] = data[1]
+    request.session['access_token'] = data[0]['access_token']
     
     discord_user = authenticate(request, user=data[0])
     
